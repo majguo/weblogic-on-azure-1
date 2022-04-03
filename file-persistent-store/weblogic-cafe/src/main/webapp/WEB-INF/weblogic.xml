@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<weblogic-web-app
+	xmlns="http://www.bea.com/ns/weblogic/weblogic-web-app"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.bea.com/ns/weblogic/weblogic-web-app http://www.bea.com/ns/weblogic/weblogic-web-app/1.0/weblogic-web-app.xsd">
+	<session-descriptor>
+		<persistent-store-type>file</persistent-store-type>
+		<persistent-store-dir>/u01/oracle/wls-sessions</persistent-store-dir>
+		<debug-enabled>true</debug-enabled>
+	</session-descriptor>
+</weblogic-web-app>
