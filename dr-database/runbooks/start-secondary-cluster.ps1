@@ -8,7 +8,7 @@
 #>
 
 Param (
-	[Parameter(Mandatory = $false)]
+    [Parameter(Mandatory = $false)]
     [Object] $webhookData,
     [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
     [String] $secondaryPostgreSQLServerRG,
@@ -24,9 +24,9 @@ Param (
     [String] $secondaryManagedVMsNameList,
 	[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
     [String] $trafficMgrRG,
-	[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
+    [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
     [String] $profileName,
-	[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
+    [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
     [String] $endpointName
 )
 
@@ -37,14 +37,14 @@ $startTime = $(get-date)
 Write-Output("${startTime}: Starting to boot the secondary cluster...")
 
 # Start the admin VM in the secondary cluster
-Write-Output("$(get-date): Starting admin VM in the secondary cluster asynchronouslly...")
+Write-Output("$(get-date): Starting admin server ${secondaryAdminVMName} in the secondary cluster asynchronouslly...")
 Start-AzVM -ResourceGroupName $secondaryWLSClusterRG -Name $secondaryAdminVMName -NoWait
-Write-Output("$(get-date): Started admin VM in the secondary cluster asynchronouslly.")
+Write-Output("$(get-date): Started admin server ${secondaryAdminVMName} in the secondary cluster asynchronouslly.")
 
 # Promote the replica to a standalone PostgreSQL server
-Write-Output("$(get-date): Starting to promote the replica to a standalone PostgreSQL server...")
+Write-Output("$(get-date): Starting to promote the replica ${secondaryPostgreSQLServerName} to a standalone PostgreSQL server...")
 Update-AzPostgreSqlServer -ResourceGroupName $secondaryPostgreSQLServerRG -Name $secondaryPostgreSQLServerName -ReplicationRole None
-Write-Output("$(get-date): Completed to promote the replica to a standalone PostgreSQL server.")
+Write-Output("$(get-date): Completed to promote the replica ${secondaryPostgreSQLServerName} to a standalone PostgreSQL server.")
 
 # Wait until admin console is accessible
 while ($true)
@@ -68,9 +68,9 @@ while ($true)
 $vmList = $secondaryManagedVMsNameList.Split(",")
 foreach ($vm in $vmList)
 {
-	Write-Output("$(get-date): Starting ${vm} in the secondary cluster asynchronouslly...")
+	Write-Output("$(get-date): Starting managed server ${vm} in the secondary cluster asynchronouslly...")
 	Start-AzVM -ResourceGroupName $secondaryWLSClusterRG -Name $vm -NoWait
-	Write-Output("$(get-date): Started ${vm} in the secondary cluster asynchronouslly.")
+	Write-Output("$(get-date): Started managed server ${vm} in the secondary cluster asynchronouslly.")
 }
 
 # Wait until the endpoint of the Azure Traffic Manager is online
