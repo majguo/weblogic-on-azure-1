@@ -412,6 +412,9 @@ Next, create another coffee to demonstrate the read-only PostgreSQL repica has b
 
 Congrats! You have done the demonstration of the disaster recovery solution you just set up! 
 
+## Recovery Time Objective (RTO)
+
+Based on the observation during the demo, the rough RTO is about 14 mins (about 4 mins for firing alert by Azure Traffic manager, about 10 mins for promoting PostgreSQL replica to a standalone server and starting the admin VM and 2 managed nodes VMs in the passive cluster).
 ## Cleaning Up
 
 Once you are done exploring all aspects of the demo, you should delete all the resources deployed on Azure. This is especially important if you are not using a free subscription! If you do keep these resources around (for example to begin your own prototype), you should at least use your own and secured passwords and make the corresponding changes in the demo code if needed.
