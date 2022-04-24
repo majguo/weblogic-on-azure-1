@@ -22,7 +22,7 @@ Param (
     [String] $secondaryAdminConsoleURI,
     [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
     [String] $secondaryManagedVMsNameList,
-	[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
+    [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
     [String] $trafficMgrRG,
     [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
     [String] $profileName,
