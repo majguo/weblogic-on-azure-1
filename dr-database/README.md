@@ -153,11 +153,11 @@ Follow the steps below to set up the 1st WebLogic cluser in East US region which
    1. Copy value of property "appGatewayURL" > Open it in a new browser tab > You should see "Error 404--Not Found". If not, you must troubleshoot and resolve the reason why before continuing.
    1. Copy and log down value of property "adminConsole" > Open it in a new browser tab > You should see login page of "WebLogic Server Administratiion Console" > Sign into the console with the user name and password for WebLogic administrator. If you are not able to sign, you must troubleshoot and resolve the reason why before continuing.
 1. Click "Overview" to switch back Overview page of the deployment. Click "Go to resource group".
-   1. Find resource "gwip" with type "Public IP address" > Copy and log down value of "IP address".
+   1. Find resource "gwip" with type "Public IP address" > Click to open > Copy and log down value of "IP address".
 
 ### Deploy the passive WebLogic cluster
 
-Follow the same steps in section [Deploy the active WebLogic cluster](#deploy-the-active-weblogic-cluster) to deploy the 2nd WebLogic cluser in West US region which acts as a passive cluster, except the following differnces/highlights:
+Follow the same steps in section [Deploy the active WebLogic cluster](#deploy-the-active-weblogic-cluster) to deploy the 2nd WebLogic cluser in West US region which acts as a passive cluster, except the following differences/highlights:
 
 1. In the "Basics" page:
    1. Create and specify a new resource group named `<your prefix>`-demo-wls-cluster-westus.
@@ -210,7 +210,7 @@ The data source used for TLOG store shouldn't use an XA JDBC driver or is config
 Follow steps below to disable "Support Global Transaction" for the data source created during the cluster deployment.
 
 1. Make sure you have signed in to WebLogic Server Administratiion Console for the active cluster.
-1. Locate to "Domain structure > wlsd > Services > Data Sources" in the left naviagation area. Click "Data Sources".
+1. Locate to "Domain structure > wlsd > Services > Data Sources" in the left navigation area. Click "Data Sources".
 1. You should see "jdbc/WebLogicCafeDB" listed in the right work area. Click "jdbc/WebLogicCafeDB".
 1. Click Transaction > Lock & Edit > Uncheck "Supports Global Transactions" > Save > Activate Changes. Wait unitl it completes.
 
@@ -229,7 +229,7 @@ Next, build and package a sample CRUD JavaEE application that can be used for de
 Now you can deploy it to the WebLogic cluster.
 
 1. Make sure you have signed in to WebLogic Server Administratiion Console for the active cluster.
-1. Locate to "Domain structure > wlsd > Deployments" in the left naviagation area. Click "Deployments".
+1. Locate to "Domain structure > wlsd > Deployments" in the left navigation area. Click "Deployments".
 1. Click Lock & Edit > Install > Upload your file(s) > Choose File >  Select "weblogic-cafe.war" you prepared above > Next > Next > Next > Select "cluster1" with option "All servers in the cluster" as deployment target. Click Next > Finish > Activate Changes.
 1. Switch to Control > Select "weblogic-cafe" > Click "Start" with option "Servicing all requests" > Wait for a while and refresh the page, until you see the state is Active > Switch to Monitoring > Copy value of Context Root. It should be "/weblogic-cafe".
 
@@ -242,7 +242,7 @@ Similarly, follow the same steps above in WebLogic Server Administratiion Consol
 Since the Azure Traffic Manager is sitting at the front of two WebLogic clusters to routing user requests, the Front Host of the WebLogic cluster needs to be updated to the DNS name of Traffic Manager.
 
 1. Make sure you have signed in to WebLogic Server Administratiion Console for the active cluster.
-1. Locate to "Domain structure > wlsd > Environment > Clusters" in the left naviagation area. Click "Clusters".
+1. Locate to "Domain structure > wlsd > Environment > Clusters" in the left navigation area. Click "Clusters".
 1. You should see "cluster1" listed in the right work area. Click "cluster1".
 1. Click HTTP > Lock & Edit > Find out the copied "DNS name", remove the starting "http://" and set the remaining for "Frontend Host" > Save > Activate Changes.
 
@@ -253,7 +253,7 @@ Similarly, follow the same steps above in WebLogic Server Administratiion Consol
 Next, you're going to configure JDBC TLOG for all managed servers of the two clusters.
 
 1. Make sure you have signed in to WebLogic Server Administratiion Console for the active cluster.
-1. Locate to "Domain structure > wlsd > Environment > Servers" in the left naviagation area. Click "Servers".
+1. Locate to "Domain structure > wlsd > Environment > Servers" in the left navigation area. Click "Servers".
 1. You should see server `msp1` and `msp2` listed in the right work area. 
 1. Click `msp1` > Services > Lock & Edit > Under "Transaction Log Store", set Type as JDBC, Data Source as `jdbc/WebLogicCafeDB` > Verify default of Prefix Name is `TLOG_msp1_`, change accordingly if not > Save > Activate Changes.
 1. Click Servers > `msp2`, and execute the same steps above except that verifing and being sure the Prefix Name of Transaction Log Store is `TLOG_msp2_`.
@@ -265,7 +265,7 @@ Similarly, follow the same steps above in WebLogic Server Administratiion Consol
 For the active cluster, restarting all managed servers for all changes above to take effect.
 
 1. Make sure you have signed in to WebLogic Server Administratiion Console for the active cluster.
-1. Locate to "Domain structure > wlsd > Environment > Servers" in the left naviagation area. Click "Servers".
+1. Locate to "Domain structure > wlsd > Environment > Servers" in the left navigation area. Click "Servers".
 1. Click Control > Select both `msp1` and `msp2` > Click "Shutdown" with option "When work completes" > Yes > Click Refresh icon. Wait until "Status of Last Action" is "TASK COMPLETED" > Select both `msp1` and `msp2` > Click Start > Yes > Click Refresh icon. Wait until "Status of Last Action" is "TASK COMPLETED". You should see "State" for both `msp1` and `msp2` is "RUNNING".
 1. Find out the copied value for "DNS name" of Azure Traffic Manager, open a new tab of the browser, paste the copied value into the address bar, append `/weblogic-cafe`, and hit `Enter` key. You will see the UI of the sample application:
 
