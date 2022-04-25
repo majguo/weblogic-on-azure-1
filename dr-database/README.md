@@ -188,7 +188,7 @@ You will be using the Azure Traffic Manager to route the user requests to the ac
    1. Select "Azure endpoint" for "Type".
    1. Specify "gw-eastus" for "Name".
    1. Select "Public IP address" for "Target resource type".
-   1. Find out the copied public IP address of `gwip` in section "Deploy the active WebLogic cluster", then select the matched item from the list for "Public IP address".
+   1. Find out the copied public IP address of `gwip` in section [Deploy the active WebLogic cluster](#deploy-the-active-weblogic-cluster), then select the matched item from the list for "Public IP address".
    1. Hit Add. Wait until it completes.
    1. Click "+Add" again to add another Azure endpoint using the copied value of public IP address deployed in the **West US** region by following the same steps above, but set "gw-westus" for "Name" and select right item for "Public IP address". Make sure the value of Priority is 2.
    1. Wait until the value of "Monitoring status" for both endpoints are changed from "Checking endpoint" to "Online". You can manually click Refresh to update the status.
@@ -200,9 +200,9 @@ The next is to configure two WebLogic clusters for disaster recovery. It include
 
 ### Sign in to WebLogic Server Administratiion Console
 
-Find out the copied value of "adminConsole" and credentials of "WebLogic Administrator" in section "Deploy the active WebLogic cluster", open it in a new browser tab, and sign in.
+Find out the copied value of "adminConsole" and credentials of "WebLogic Administrator" in section [Deploy the active WebLogic cluster](#deploy-the-active-weblogic-cluster), open it in a new browser tab, and sign in.
 
-Similarly, sign in to WebLogic Server Administratiion Console using the the copied value of "adminConsole" and credentials of "WebLogic Administrator" in section "Deploy the passive WebLogic cluster".
+Similarly, sign in to WebLogic Server Administratiion Console using the the copied value of "adminConsole" and credentials of "WebLogic Administrator" in section [Deploy the passive WebLogic cluster](#deploy-the-passive-weblogic-cluster).
 
 ### Disable "Support Global Transaction" for the data source
 
@@ -346,7 +346,7 @@ The final step is to create an alert rule in the Azure Traffic Manager, which wi
          1. Set `<your prefix>`-demo-westus for "SECONDARYPOSTGRESQLSERVERNAME".
          1. Set `<your prefix>`-demo-wls-cluster-westus for "SECONDARYWLSCLUSTERRG".
          1. Set `adminVM` for "SECONDARYADMINVMNAME".
-         1. Find out copied value of "adminConsole" in section "Deploy the passive WebLogic cluster" and set it for "SECONDARYADMINCONSOLEURI".
+         1. Find out copied value of "adminConsole" in section [Deploy the passive WebLogic cluster](#deploy-the-passive-weblogic-cluster) and set it for "SECONDARYADMINCONSOLEURI".
          1. Set `mspVM1,mspVM2` for "SECONDARYMANAGEDVMSNAMELIST".
          1. Set `<your prefix>`-demo-traffic-manager for "TRAFFICMGRRG".
          1. Set `<your prefix>`-demo for "PROFILENAME".
