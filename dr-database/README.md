@@ -222,9 +222,9 @@ Next, build and package a sample CRUD JavaEE application that can be used for de
 
 1. Checkout this repository.
 1. Locate the path where the repository was downloaded.
-1. Change to its sub-dirctory `dr-database/webLogic-cafe`.
+1. Change to its sub-dirctory `dr-database/weblogic-cafe`.
 1. Compile and package the sample application: `mvn -Dregion="East US" clean package`.
-1. The package should be successfully generated and located at `<your local clone of the repo>/dr-database/webLogic-cafe/target/weblogic-cafe.war`. If you don't see this, you must troubleshoot and resolve the reason why before continuing.
+1. The package should be successfully generated and located at `<your local clone of the repo>/dr-database/weblogic-cafe/target/weblogic-cafe.war`. If you don't see this, you must troubleshoot and resolve the reason why before continuing.
 
 Now you can deploy it to the WebLogic cluster.
 
