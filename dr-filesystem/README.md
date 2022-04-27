@@ -250,7 +250,7 @@ First, let's mount primary volume to managed sever VMs in the primary cluster.
       bash -c "echo \"<private-ip-address>:/<file-path> /u01/oracle/share nfs bg,rw,hard,noatime,nolock,rsize=65536,wsize=65536,sec=sys,vers=4.1,tcp,_netdev 0 0\" >> /etc/fstab"
       ```
 
-      Note: If you observe the following error message `mount.nfs: mounting <private-ip-address>:/<file-path> failed, reason given by server: No such file or directory`, please wait for a while and re-run the command below until it succeeded:
+      Note: If you observe the following error message `mount.nfs: mounting <private-ip-address>:/<file-path> failed, reason given by server: No such file or directory`, please wait for a while and re-run the command below until it succeeds:
       ```
       mount -t nfs -o rw,hard,rsize=65536,wsize=65536,sec=sys,vers=4.1,tcp <private-ip-address>:/<file-path> /u01/oracle/share
       ```
@@ -322,7 +322,13 @@ Now you can deploy it to the WebLogic cluster.
 Similarly, follow the same steps above in WebLogic Server Administratiion Console for the passive cluster, except:
 
 1. Compile and package the sample application: `mvn -Dregion="West US" clean package`.
-1. If you encounter error which complains that `/u01/oracle/share/wls-sessions/weblogic-cafe.war` can't be created, this is due to the replication volume is read-only and the same path created in the primary volume is not synchronized to the replication volume yet. You need to wait for the synchronization completes, delete the app deployment and re-install the sample app.
+1. After you clicked "Activate Changes", you may see the following error messages:
+   ```
+   Error An error occurred during activation of changes, please see the log for details.
+   Error java.lang.RuntimeException: Cannot make directory: /u01/oracle/share/wls-sessions/weblogic-cafe.war
+   Error Cannot make directory: /u01/oracle/share/wls-sessions/weblogic-cafe.war
+   ``` 
+   This is because the replication volume is read-only and the same path created in the primary volume hasn't been synchronized to the replication volume yet. You need to wait for the synchronization completes, delete the app deployment and re-install the sample app until it succeeds.
 
 ### Change Frontend Host to DNS name of traffic manager
 
