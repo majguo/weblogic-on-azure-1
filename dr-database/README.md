@@ -141,6 +141,7 @@ Follow the steps below to set up the 1st WebLogic cluser in East US region which
    1. Select "Azure database for PostgreSQL" for "Choose database type".
    1. Specify `jdbc/WebLogicCafeDB` for "JNDI Name". Note: this value determines the data source name used in the sample application.
    1. Specify `jdbc:postgresql://<your prefix>-demo-eastus.postgres.database.azure.com:5432/postgres` for "DataSource Connection String".
+   1. Select `None` for "Global transactions protocol".
    1. Specify `demouser@<your prefix>-demo-eastus` for "Database username".
    1. Specify and confirm `<your unique password>` that you logged down before for "Database Password".
    1. Click "Review + create".
@@ -203,18 +204,6 @@ The next is to configure two WebLogic clusters for disaster recovery. It include
 Find out the copied value of "adminConsole" and credentials of "WebLogic Administrator" in section [Deploy the active WebLogic cluster](#deploy-the-active-weblogic-cluster), open it in a new browser tab, and sign in.
 
 Similarly, sign in to WebLogic Server Administratiion Console using the the copied value of "adminConsole" and credentials of "WebLogic Administrator" in section [Deploy the passive WebLogic cluster](#deploy-the-passive-weblogic-cluster).
-
-### Disable "Support Global Transaction" for the data source
-
-The data source used for TLOG store shouldn't use an XA JDBC driver or is configured to support global transactions. 
-Follow steps below to disable "Support Global Transaction" for the data source created during the cluster deployment.
-
-1. Make sure you have signed in to WebLogic Server Administratiion Console for the active cluster.
-1. Locate to "Domain structure > wlsd > Services > Data Sources" in the left navigation area. Click "Data Sources".
-1. You should see "jdbc/WebLogicCafeDB" listed in the right work area. Click "jdbc/WebLogicCafeDB".
-1. Click Transaction > Lock & Edit > Uncheck "Supports Global Transactions" > Save > Activate Changes. Wait unitl it completes.
-
-Similarly, follow the same steps above in WebLogic Server Administratiion Console for the passive cluster.
 
 ### Deploy sample app
 
