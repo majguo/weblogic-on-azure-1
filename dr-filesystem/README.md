@@ -359,7 +359,7 @@ For the active cluster, restarting all managed servers for all changes above to 
 
 1. Make sure you have signed in to WebLogic Server Administratiion Console for the active cluster.
 1. Locate to "Domain structure > wlsd > Environment > Servers" in the left navigation area. Click "Servers".
-1. Click Control > Select both `msp1` and `msp2` > Click "Shutdown" with option "When work completes" > Yes > Click Refresh icon. Wait until "Status of Last Action" is "TASK COMPLETED" > Select both `msp1` and `msp2` > Click Start > Yes > Click Refresh icon. Wait until "Status of Last Action" is "TASK COMPLETED". You should see "State" for both `msp1` and `msp2` is "RUNNING".
+1. Click Control > Select both `msp1` and `msp2` > Click "Shutdown" with option "When work completes" > Yes > Click Refresh icon. Wait until "Status of Last Action" is "TASK COMPLETED" > Click Refresh icon again to stop refreshing > Select both `msp1` and `msp2` > Click Start > Yes > Click Refresh icon. Wait until "Status of Last Action" is "TASK COMPLETED". You should see "State" for both `msp1` and `msp2` is "RUNNING".
 1. Find out the copied value for "DNS name" of Azure Traffic Manager, open a new tab of the browser, paste the copied value into the address bar, append `/weblogic-cafe`, and hit `Enter` key. You will see the UI of the sample application:
 
    ![UI of the sample application deployed in the East US region](./media/sample_app_ui_eastus.png)
@@ -419,7 +419,7 @@ The final step is to create an alert rule in the Azure Traffic Manager, which wi
 1. In the portal, go to 'All resources'. Enter `<your prefix>`-demo-traffic-manager into the filter box and press Enter.
 1. You should see one Azure Manager profile named `<your prefix>`-demo. Click it to open.
 1. Under "Monitoring", open "Alerts" page.
-   1. Click "Create an alert rule".
+   1. Click "Create alert rule".
    1. Select "Endpoint Status by Endpoint" from signals listed.
    1. Under "Split "by dimensions", select "Endpoint name" for "Dimension name", "=" for "Operator", and "gw-eastus" for "Dimension values".
    1. Under "Alert logic", select "Less than" for "Operator", "Minimum" for "Aggregation type", and set `0.5` for "Threshold value". Select "1 minute" for "Aggregation granularity (Period)".
