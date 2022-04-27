@@ -249,6 +249,13 @@ First, let's mount primary volume to managed sever VMs in the primary cluster.
       mount -t nfs -o rw,hard,rsize=65536,wsize=65536,sec=sys,vers=4.1,tcp <private-ip-address>:/<file-path> /u01/oracle/share
       bash -c "echo \"<private-ip-address>:/<file-path> /u01/oracle/share nfs bg,rw,hard,noatime,nolock,rsize=65536,wsize=65536,sec=sys,vers=4.1,tcp,_netdev 0 0\" >> /etc/fstab"
       ```
+
+      Note: If you observe the following error message `mount.nfs: mounting <private-ip-address>:/<file-path> failed, reason given by server: No such file or directory`, please wait for a while and re-run the command below until it succeeded:
+      ```
+      mount -t nfs -o rw,hard,rsize=65536,wsize=65536,sec=sys,vers=4.1,tcp <private-ip-address>:/<file-path> /u01/oracle/share
+      ```
+      The root cause is unknown yet, but the possible reason is that the mirroring of two volumes is being initialized.
+
    1. Run `df -h` to verify the mount. You should see the output includes the following similar entry if everything goes well:
       ```
       <private-ip-address>:/<file-path>                      100G  832K  100G   1% /u01/oracle/share
