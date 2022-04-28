@@ -29,7 +29,9 @@ Param (
     [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
     [String] $profileName,
     [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
-    [String] $endpointName
+    [String] $primaryEndpointName,
+    [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]
+    [String] $secondaryEndpointName
 )
 
 # Connect to Azure with system-assigned managed identity (automation account)
@@ -37,6 +39,22 @@ Connect-AzAccount -Identity
 
 $startTime = $(get-date)
 Write-Output("${startTime}: Starting to boot the secondary cluster...")
+
+# Exit immediately if the primary endpoint of the Azure Traffic Manager is still online
+$endpointState = (Get-AzTrafficManagerEndpoint -Name $primaryEndpointName -ProfileName $profileName -ResourceGroupName $trafficMgrRG -Type AzureEndpoints).EndpointMonitorStatus
+Write-Output("$(get-date): ${primaryEndpointName} is in '${endpointState}' state.")
+if ($endpointState -eq "Online") {
+    Write-Output("$(get-date): Exit immediately as the primary endpoint ${primaryEndpointName} is still in '${endpointState}' state.");
+    return
+}
+
+# Exit immediately if the secondary admin VM is starting or running which indicates the recovery is already in progress or completed
+$adminVMState = (Get-AzVM -ResourceGroupName $secondaryWLSClusterRG -Name $secondaryAdminVMName -Status).Statuses[1].DisplayStatus
+Write-Output("$(get-date): ${secondaryAdminVMName} is in '${adminVMState}' state.");
+if (($adminVMState -eq "VM starting") -or ($adminVMState -eq "VM running")) {
+    Write-Output("$(get-date): Exit immediately as the secondary admin server ${secondaryAdminVMName} is in '${adminVMState}' state which indicates the recovery is already in progress or completed.");
+    return
+}
 
 # Start the admin VM in the secondary cluster
 Write-Output("$(get-date): Starting admin server ${secondaryAdminVMName} in the secondary cluster asynchronouslly...")
@@ -98,11 +116,11 @@ foreach ($vm in $vmList)
 	Write-Output("$(get-date): Started managed server ${vm} in the secondary cluster asynchronouslly.")
 }
 
-# Wait until the endpoint of the Azure Traffic Manager is online
+# Wait until the secondary endpoint of the Azure Traffic Manager is online
 while ($true)
 {
-	$endpointState = (Get-AzTrafficManagerEndpoint -Name $endpointName -ProfileName $profileName -ResourceGroupName $trafficMgrRG -Type AzureEndpoints).EndpointMonitorStatus
-	Write-Output("$(get-date): ${endpointName} is in '${endpointState}' state.")
+	$endpointState = (Get-AzTrafficManagerEndpoint -Name $secondaryEndpointName -ProfileName $profileName -ResourceGroupName $trafficMgrRG -Type AzureEndpoints).EndpointMonitorStatus
+	Write-Output("$(get-date): ${secondaryEndpointName} is in '${endpointState}' state.")
 	if ($endpointState -eq "Online") {
 		break
 	} else {

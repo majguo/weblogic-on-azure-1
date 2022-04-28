@@ -422,7 +422,7 @@ The final step is to create an alert rule in the Azure Traffic Manager, which wi
    1. Click "Create alert rule".
    1. Select "Endpoint Status by Endpoint" from signals listed.
    1. Under "Split "by dimensions", select "Endpoint name" for "Dimension name", "=" for "Operator", and "gw-eastus" for "Dimension values".
-   1. Under "Alert logic", select "Less than" for "Operator", "Minimum" for "Aggregation type", and set `0.5` for "Threshold value". Select "1 minute" for "Aggregation granularity (Period)".
+   1. Under "Alert logic", select "Less than" for "Operator", "Minimum" for "Aggregation type", and set `0.5` for "Threshold value".
    1. Click Done.
    1. Click Next.
 1. In Actions page, click "Create action group".
@@ -433,7 +433,7 @@ The final step is to create an alert rule in the Azure Traffic Manager, which wi
       1. Select "Email/SMS message/Push/Voice" for "Notification type".
       1. Check "Email". Set email address for "Email".
       1. Click OK.
-      1. Set appropriate value (e.g., "Primary cluster outage detected, starting backup cluster for DR") for "Name" of the notification.
+      1. Set appropriate value (e.g., "primary-cluster-down-starting-secondary-cluster") for "Name" of the notification.
       1. Click Next.
    1. In Actions page:
       1. Select "Automation Runbook" for "Action type".
@@ -452,7 +452,8 @@ The final step is to create an alert rule in the Azure Traffic Manager, which wi
          1. Set `mspVM1,mspVM2` for "SECONDARYMANAGEDVMSNAMELIST".
          1. Set `<your prefix>`-demo-traffic-manager for "TRAFFICMGRRG".
          1. Set `<your prefix>`-demo for "PROFILENAME".
-         1. Set `gw-westus` for "ENDPOINTNAME".
+         1. Set `gw-eastus` for "PRIMARYENDPOINTNAME".
+         1. Set `gw-westus` for "SECONDARYENDPOINTNAME".
          1. Click OK.
       1. Click OK.
       1. Set appropriate value (e.g., "start-secondary-cluster") for "Name" of the action.
