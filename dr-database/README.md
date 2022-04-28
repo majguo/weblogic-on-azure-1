@@ -376,22 +376,50 @@ You can simulate the outage of the active cluster by stopping the Azure Applicat
 az network application-gateway stop -n myAppGateway -g <your prefix>-demo-wls-cluster-eastus
 ```
 
+Normally, after about 5 minutes, you should receive an email with title "Azure: Activated Severity: 2 primary-cluster-outage" in the email box you specified during the creation of alert rule.
+
+However, if you don't receive such email, try to wait longer, e.g. 10 minutes; if the email is still not received, you can start the Azure Application Gateway to deactivate the alert:
+
+```
+az network application-gateway start -n myAppGateway -g <your prefix>-demo-wls-cluster-eastus
+```
+
+Again, wait until you receive an email with title "Azure: Deactivated Severity: 2 primary-cluster-outage". Then stop the Azure Application Gateway deployed in the East US region again:
+
+```
+az network application-gateway stop -n myAppGateway -g <your prefix>-demo-wls-cluster-eastus
+```
+
+Now you should be able to receive an email with title "Azure: Activated Severity: 2 primary-cluster-outage" after few minutes. If the workaround still doesn't work, leave a message to the repo owner so the owner can troubleshooting. 
+
+Once you receive the alert activated email, you can find fired alerts from Azure Portal:
+
+1. In the portal, go to 'All resources'. Enter `<your prefix>`-demo-traffic-manager into the filter box and press Enter.
+1. You should see one Azure Manager profile named `<your prefix>`-demo. Click it to open.
+1. Under "Monitoring", open "Alerts" page. You should see the fired alert listed.
+
+As the action defined in the action group, the Azure Automation Account runbook is triggered to start the passive cluster.
+
 ### Monitor the passive cluster is activated
 
-Monitor the "Monitor status" for endpoints `gw-eastus` and `gw-westus` in the overview of Azure Traffic manager:
+Now, switch to the "Overview" page of the Azure Traffic manager to monitor endpoints' status.
 
 1. In the portal, go to 'All resources'. Enter `<your prefix>`-demo-traffic-manager into the filter box and press Enter.
 1. You should see one Azure Manager profile named `<your prefix>`-demo. Click it to open. You should see two endpoints `gw-eastus` and `gw-westus`. Click refresh to update the Monitor status.
-1. For endpoint `gw-eastus`, it should be changed from `Online` to `Degraded` soon.
+1. For endpoint `gw-eastus`, it should be in `Degraded` status.
 1. For endpoint `gw-westus`, it should be changed from `Degraded` to `Online` after several minutes. Wait until it becomes `Online`.
 1. Refresh the UI of sample app.
 1. Observe that **West US** is disaplyed at the left-top of the page.
 1. Observe all of coffees are listed due to the auto replication from primary replica to the secondary replica.
-1. Observe the values of the name and the price for the new created coffee are retained due to the JDBC session persistence. For example:
+1. Observe the values of the name and the price for the new created coffee are retained due to the session persistence. For example:
 
    ![UI of the sample application deployed in the West US region](./media/sample_app_ui_westus.png)
 
-To verify the failover is triggered by the alert, open "Monitoring > Alerts", where you can see one warning alert is listed. The email address specified in the "Notifications" should also receive an email telling you the alert is activated.
+To verify the runbook is triggered, find its job from Azure Portal:
+
+1. In the portal, go to 'All resources'. Enter `start-secondary-cluster` into the filter box and press Enter.
+1. You should see one runbook with name prefix `start-secondary-cluster` listed. Click it to open.
+1. Under "Resources", open "Jobs" page. You should see its jobs listed. You can also click to open and view job's Input, Output, Errors, etc. 
 
 This demonstrates that the passive cluster is automatically activated and handling user requests in a failover event when the active cluster is down.
 
