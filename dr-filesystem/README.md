@@ -555,7 +555,7 @@ There is no exact number for RPO compared to the RTO in this guide. Since we rep
   > Since replication is asynchronous, there could be a considerable lag between the primary and the replica. The amount of lag is influenced by a number of factors such as the type of workload running on the primary server and the latency between the primary and the replica server. In typical cases with nominal write workload, replica lag is expected between a few seconds to few minutes. However, in cases where the primary runs very heavy write-intensive workload and the replica is not catching up fast enough, the lag can be much higher. 
 * Azure NetApp Files: [Service-level objectives](https://docs.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction#service-level-objectives)
   > Recovery Point Objective (RPO) indicates the point in time to which data can be recovered. The RPO target is typically less than twice the replication schedule, but it can vary. In some cases, it can go beyond the target RPO based on factors such as the total dataset size, the change rate, the percentage of data overwrites, and the replication bandwidth available for transfer.
-  * For the replication schedule of 10 minutes, the typical RPO is less than 20 minutes.
+  > * For the replication schedule of 10 minutes, the typical RPO is less than 20 minutes.
 
 ## Cleaning Up
 
