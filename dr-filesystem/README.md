@@ -548,6 +548,7 @@ Congrats! You have done the demonstration of the disaster recovery solution you 
 Based on the observation during the demo, the rough RTO is about 15 mins consisting of:
 * About 4 mins for firing alert by Azure Traffic manager. Pls notice that the time varies among tests. User may also use other tool to monitor the endpoint health and trigger DR event. So this data is only for demo purpose.
 * About 11 mins for promoting PostgreSQL replica to a standalone server, delete the replication from the primary volume to the secondary one, and starting the admin VM and 2 managed nodes VMs in the passive cluster. Pls notice that the time may vary among tests, but this data is still valid as a benchmark reference.
+  * In case the PostgreSQL replica promotion is not needed if user selects other database, the time for starting the passive cluster can be reduced to about 8 mins.
 
 There is no exact number for RPO compared to the RTO in this guide. Since we reply on Azure Database for PostgreSQL and Azure NetApp Files for asynchronouslly replicating data across regions, here is some useful information:
 
