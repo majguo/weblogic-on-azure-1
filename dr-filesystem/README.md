@@ -543,9 +543,19 @@ Next, create another coffee to demonstrate the read-only PostgreSQL repica has b
 
 Congrats! You have done the demonstration of the disaster recovery solution you just set up! 
 
-## Recovery Time Objective (RTO)
+## Recovery Time Objective (RTO) and Recovery Point Objective (RPO)
 
-Based on the observation during the demo, the rough RTO is about 15 mins (about 4 mins for firing alert by Azure Traffic manager, about 11 mins for promoting PostgreSQL replica to a standalone server, delete the replication from the primary volume to the secondary one, and starting the admin VM and 2 managed nodes VMs in the passive cluster).
+Based on the observation during the demo, the rough RTO is about 15 mins consisting of:
+* About 4 mins for firing alert by Azure Traffic manager. Pls notice that the time varies among tests. User may also use other tool to monitor the endpoint health and trigger DR event. So this data is only for demo purpose.
+* About 11 mins for promoting PostgreSQL replica to a standalone server, delete the replication from the primary volume to the secondary one, and starting the admin VM and 2 managed nodes VMs in the passive cluster. Pls notice that the time may vary among tests, but this data is still valid as a benchmark reference.
+
+There is no exact number for RPO compared to the RTO in this guide. Since we reply on Azure Database for PostgreSQL and Azure NetApp Files for asynchronouslly replicating data across regions, here is some useful information:
+
+* Azure Database for PostgreSQL: [Failover to replica](https://docs.microsoft.com/azure/postgresql/concepts-read-replicas#failover-to-replica)
+  > Since replication is asynchronous, there could be a considerable lag between the primary and the replica. The amount of lag is influenced by a number of factors such as the type of workload running on the primary server and the latency between the primary and the replica server. In typical cases with nominal write workload, replica lag is expected between a few seconds to few minutes. However, in cases where the primary runs very heavy write-intensive workload and the replica is not catching up fast enough, the lag can be much higher. 
+* Azure NetApp Files: [Service-level objectives](https://docs.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-introduction#service-level-objectives)
+  > Recovery Point Objective (RPO) indicates the point in time to which data can be recovered. The RPO target is typically less than twice the replication schedule, but it can vary. In some cases, it can go beyond the target RPO based on factors such as the total dataset size, the change rate, the percentage of data overwrites, and the replication bandwidth available for transfer.
+  * For the replication schedule of 10 minutes, the typical RPO is less than 20 minutes.
 
 ## Cleaning Up
 

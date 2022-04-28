@@ -430,9 +430,16 @@ Next, create another coffee to demonstrate the read-only PostgreSQL repica has b
 
 Congrats! You have done the demonstration of the disaster recovery solution you just set up! 
 
-## Recovery Time Objective (RTO)
+## Recovery Time Objective (RTO) and Recovery Point Objective (RPO)
 
-Based on the observation during the demo, the rough RTO is about 14 mins (about 4 mins for firing alert by Azure Traffic manager, about 10 mins for promoting PostgreSQL replica to a standalone server and starting the admin VM and 2 managed nodes VMs in the passive cluster).
+Based on the observation during the demo, the rough RTO is about 14 mins consisting of:
+* About 4 mins for firing alert by Azure Traffic manager. Pls notice that the time varies among tests. User may also use other tool to monitor the endpoint health and trigger DR event. So this data is only for demo purpose.
+* About 10 mins for promoting PostgreSQL replica to a standalone server and starting the admin VM and 2 managed nodes VMs in the passive cluster. Pls notice that the time may vary among tests, but this data is still valid as a benchmark reference.
+
+There is no exact number for RPO compared to the RTO in this guide. Since we reply on Azure Database for PostgreSQL for asynchronouslly replicating data across regions, here is some useful information from [Failover to replica](https://docs.microsoft.com/azure/postgresql/concepts-read-replicas#failover-to-replica):
+
+> Since replication is asynchronous, there could be a considerable lag between the primary and the replica. The amount of lag is influenced by a number of factors such as the type of workload running on the primary server and the latency between the primary and the replica server. In typical cases with nominal write workload, replica lag is expected between a few seconds to few minutes. However, in cases where the primary runs very heavy write-intensive workload and the replica is not catching up fast enough, the lag can be much higher.
+
 ## Cleaning Up
 
 Once you are done exploring all aspects of the demo, you should delete all the resources deployed on Azure. This is especially important if you are not using a free subscription! If you do keep these resources around (for example to begin your own prototype), you should at least use your own and secured passwords and make the corresponding changes in the demo code if needed.
